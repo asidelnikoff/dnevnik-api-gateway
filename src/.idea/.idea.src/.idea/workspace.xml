@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="2d26e438-7704-433f-9db6-4e50e0bd6446" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/.dockerignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/.idea/.idea.Dnevnik.ApiGateway/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/.idea/.idea.Dnevnik.ApiGateway/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/.idea/.idea.Dnevnik.ApiGateway/.idea/indexLayout.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway.sln" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Controllers/BaseController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Controllers/GatewayController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Dnevnik.ApiGateway.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Infrastructure/Configuration/ApiVersioningExtensions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Infrastructure/Configuration/BuilderConfigurationExtensions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Infrastructure/Configuration/Config/ApiLastVersionOptions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Infrastructure/Configuration/Config/BaseApiClientOptions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Infrastructure/Configuration/Config/ScheduleOptions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Infrastructure/Configuration/Config/TasksOptions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Infrastructure/Configuration/Config/UsersOptions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Infrastructure/Configuration/ServicesExtensions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Program.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Properties/launchSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Services/HttpService/ApiServiceException.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Services/HttpService/BaseApiService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Services/HttpService/HttpGetRequest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Services/HttpService/HttpPostRequest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Services/HttpService/HttpService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Services/HttpService/HttpServiceMetric.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Services/HttpService/HttpServiceOptions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Services/HttpService/IHttpService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Services/Schedule/IScheduleApiService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Services/Schedule/ScheduleApiService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Services/Tasks/ITasksApiClient.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Services/Tasks/TasksApiService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Services/Users/IUsersApiService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/Services/Users/UsersApiService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/appsettings.Development.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/Dnevnik.ApiGateway/appsettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/docker-compose.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dnevnik.ApiGateway/global.json" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "asidelnikoff"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/asidelnikoff/dnevnik-api-gateway.git",
+    "accountId": "8706d8e1-d200-45b0-af23-49f20cb6dbc8"
+  }
+}]]></component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="2vAINynRq6dN4SFHq5xUlHUIsVc" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "#2 on 1-app-base",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2d26e438-7704-433f-9db6-4e50e0bd6446" name="Changes" comment="" />
+      <created>1743581415263</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1743581415263</updated>
+      <workItem from="1743581416481" duration="184000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+</project>

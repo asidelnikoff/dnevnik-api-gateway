@@ -1,11 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dnevnik.ApiGateway", "Dnevnik.ApiGateway\Dnevnik.ApiGateway.csproj", "{DC6A8B35-9A07-4B6C-A3DE-DC66057560D7}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5F7F4C11-5DE2-4BA7-B5FC-81AFD535361D}"
-	ProjectSection(SolutionItems) = preProject
-		docker-compose.yml = docker-compose.yml
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dnevnik.ApiGateway", "src\Dnevnik.ApiGateway\Dnevnik.ApiGateway.csproj", "{DC6A8B35-9A07-4B6C-A3DE-DC66057560D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

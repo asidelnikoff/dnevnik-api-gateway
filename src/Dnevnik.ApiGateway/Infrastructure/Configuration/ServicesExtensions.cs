@@ -72,7 +72,7 @@ public static class ServicesExtensions
     
     private static IServiceCollection AddTasksService(this IServiceCollection services)
     {
-        services.AddHttpClient<ITasksApiClient>((provider, client) =>
+        services.AddHttpClient<ITasksApiService>((provider, client) =>
         {
             var apiClientOptions = provider
                 .GetRequiredService<IOptions<TasksOptions>>()
@@ -83,14 +83,14 @@ public static class ServicesExtensions
         });
 
         return services
-            .AddTransient<ITasksApiClient>(provider =>
+            .AddTransient<ITasksApiService>(provider =>
             {
                 var httpClientFactory = provider.GetRequiredService<IHttpClientFactory>();
-                var httpClient = httpClientFactory.CreateClient(nameof(ITasksApiClient));
+                var httpClient = httpClientFactory.CreateClient(nameof(ITasksApiService));
                 var logger = provider.GetRequiredService<ILogger<HttpService>>();
                 var metric = provider.GetRequiredService<HttpServiceMetric>();
 
-                var httpService = new HttpService(httpClient, nameof(ITasksApiClient), logger, metric);
+                var httpService = new HttpService(httpClient, nameof(ITasksApiService), logger, metric);
 
                 return new TasksApiService(httpService);
             });

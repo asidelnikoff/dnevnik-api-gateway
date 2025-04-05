@@ -2,5 +2,5 @@
 
 public class CreateHomeworkRequest
 {
-    public required string Homework { get; init; }
+    public string? Homework { get; init; }
 }

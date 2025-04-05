@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dnevnik.ApiGateway.Controllers;
 
-[ApiController]
-[Route("api/v{version:apiVersion}")]
-public class BaseController : ControllerBase;
+public class AuthController : BaseController
+{
+    [HttpPost("auth/login")]
+    public LoginResponse PostLogin(LoginRequest request) => throw new NotImplementedException();
+}

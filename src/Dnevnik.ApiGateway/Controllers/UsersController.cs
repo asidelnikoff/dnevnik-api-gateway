@@ -6,11 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dnevnik.ApiGateway.Controllers;
 
-public class GatewayController : BaseController
+public class UsersController : BaseController
 {
-    [HttpPost("auth/login")]
-    public LoginResponse PostLogin(LoginRequest request) => throw new NotImplementedException();
-
     [HttpPut("users/me")]
     public IActionResult PutNewPassword(ChangePasswordRequest request) => throw new NotImplementedException();
 
@@ -19,4 +16,10 @@ public class GatewayController : BaseController
     
     [HttpPost("users/teachers")]
     public Student PostCreateNewTeacher(CreateTeacherRequest request) => throw new NotImplementedException();
+
+    [HttpGet("users/students")]
+    public StudentInfoResponse[] GetStudents(/*todo crete request class*/) => throw new NotImplementedException();
+    
+    [HttpGet("users/stuff")]
+    public StuffInfoResponse[] GetStuff(/*todo crete request class*/) => throw new NotImplementedException();
 }

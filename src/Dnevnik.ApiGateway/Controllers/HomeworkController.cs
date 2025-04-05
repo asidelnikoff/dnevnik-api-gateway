@@ -27,7 +27,7 @@ public class HomeworkController(ITasksApiService tasksApiService) : BaseControll
     [HttpPut("homework/{id}")]
     public IActionResult UpdateHomework(Guid id, CreateHomeworkRequest request)
     {
-        tasksApiService.UpdateTask(new Task()
+        tasksApiService.UpdateTask(new Task
         {
             Deadline = DateTime.Now, // todo get lesson date and fill deadline
             Payload = request.Homework

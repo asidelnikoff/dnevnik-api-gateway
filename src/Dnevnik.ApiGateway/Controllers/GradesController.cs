@@ -7,8 +7,8 @@ namespace Dnevnik.ApiGateway.Controllers;
 public class GradesController : BaseController
 {
     [HttpPost("grades")]
-    public IActionResult PostGrades(CreateGrade request) => throw new NotImplementedException();
+    public IActionResult PostGrades(CreateGradeRequest request) => throw new NotImplementedException();
 
     [HttpPut("grades")]
-    public IActionResult UpdateGrades(CreateGrade request) => throw new NotImplementedException();
+    public IActionResult UpdateGrades(CreateGradeRequest request) => throw new NotImplementedException();
 }

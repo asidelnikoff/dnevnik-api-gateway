@@ -6,12 +6,12 @@ namespace Dnevnik.ApiGateway.Controllers;
 
 public class HomeworkController : BaseController
 {
-    [HttpPost("homework")]
-    public IActionResult CreateHomework(CreateHomeworkRequest request) => throw new NotImplementedException();
+    [HttpPost("homework/{id}")]
+    public IActionResult CreateHomework(Guid id, CreateHomeworkRequest request) => throw new NotImplementedException();
 
-    [HttpPut("homework")]
-    public IActionResult UpdateHomework(CreateHomeworkRequest request) => throw new NotImplementedException();
-
+    [HttpPut("homework/{id}")]
+    public IActionResult UpdateHomework(Guid id, CreateHomeworkRequest request) => throw new NotImplementedException();
+    
     [HttpDelete("homework/{id}")]
     public IActionResult DeleteHomework(Guid id) => throw new NotImplementedException();
 }

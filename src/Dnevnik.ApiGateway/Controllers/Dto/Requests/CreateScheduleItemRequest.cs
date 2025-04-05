@@ -2,7 +2,9 @@
 
 public class CreateScheduleItemRequest
 {
-    public DateOnly Date { get; init; }
+    public DateOnly StartDate { get; init; }
+    public DateOnly EndDate { get; init; }
+    public WeekDay[]? WeekDays { get; init; }
     public required string StartTime { get; init; }
     public required string EndTime { get; init; }
     public required string Class { get; init; }

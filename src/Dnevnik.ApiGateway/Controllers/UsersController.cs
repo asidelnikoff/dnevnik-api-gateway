@@ -18,8 +18,14 @@ public class UsersController : BaseController
     public Student PostCreateNewTeacher(CreateTeacherRequest request) => throw new NotImplementedException();
 
     [HttpGet("users/students")]
-    public StudentInfoResponse[] GetStudents(/*todo crete request class*/) => throw new NotImplementedException();
+    public StudentInfoResponse[] GetStudents(
+        [FromQuery] string? @class,
+        [FromQuery] string? search,
+        [FromQuery] StudentsSort sort) => throw new NotImplementedException();
     
     [HttpGet("users/stuff")]
-    public StuffInfoResponse[] GetStuff(/*todo crete request class*/) => throw new NotImplementedException();
+    public StuffInfoResponse[] GetStuff(
+        [FromQuery] Role role,
+        [FromQuery] string? search,
+        [FromQuery] StudentsSort sort) => throw new NotImplementedException();
 }

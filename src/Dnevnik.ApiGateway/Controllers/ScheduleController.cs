@@ -8,7 +8,7 @@ namespace Dnevnik.ApiGateway.Controllers;
 public class ScheduleController : BaseController
 {
     [HttpGet("schedule")]
-    public ScheduleItem GetSchedule(DateTime date) => throw new NotImplementedException();
+    public ScheduleItem GetSchedule([FromQuery] DateTime date) => throw new NotImplementedException();
 
     [HttpPost("schedule")]
     public ScheduleItem CreateNewScheduleItem(CreateScheduleItemRequest request) => throw new NotImplementedException();
@@ -18,4 +18,9 @@ public class ScheduleController : BaseController
 
     [HttpDelete("schedule/{id}")]
     public IActionResult DeleteScheduleItem(Guid id) => throw new NotImplementedException();
+
+    [HttpGet("summary")]
+    public ScheduleItem[] GetSummarySchedule(
+        [FromQuery] string date,
+        [FromQuery] string startTime) => throw new NotImplementedException();
 }

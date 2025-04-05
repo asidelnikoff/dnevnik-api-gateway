@@ -3,7 +3,9 @@
 public class ScheduleItem
 {
     public Guid Id { get; init; }
-    public DateOnly Date { get; init; }
+    public DateOnly StartDate { get; init; }
+    public DateOnly EndDate { get; init; }
+    public WeekDay[]? WeekDays { get; init; }
     public required string StartTime { get; init; }
     public required string EndTime { get; init; }
     public required string Subject { get; init; }

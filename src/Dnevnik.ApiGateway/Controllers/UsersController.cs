@@ -15,7 +15,7 @@ public class UsersController : BaseController
     public Student PostCreateNewStudent(CreateStudentRequest request) => throw new NotImplementedException();
     
     [HttpPost("users/teachers")]
-    public Student PostCreateNewTeacher(CreateTeacherRequest request) => throw new NotImplementedException();
+    public Teacher PostCreateNewTeacher(CreateTeacherRequest request) => throw new NotImplementedException();
 
     [HttpGet("users/students")]
     public StudentInfoResponse[] GetStudents(

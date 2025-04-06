@@ -10,7 +10,7 @@ namespace Dnevnik.ApiGateway.Controllers;
 
 public class HomeworkController(ITasksApiService tasksApiService) : BaseController
 {
-    [HttpPost("homework/{id}")]
+    [HttpPost("schedule/{id:guid}/homework")]
     public IActionResult CreateHomework(Guid id, CreateHomeworkRequest request)
     {
         tasksApiService.CreateTask(new CreateTask
@@ -24,7 +24,7 @@ public class HomeworkController(ITasksApiService tasksApiService) : BaseControll
         return Ok();
     }
 
-    [HttpPut("homework/{id}")]
+    [HttpPut("schedule/{id:guid}/homework")]
     public IActionResult UpdateHomework(Guid id, CreateHomeworkRequest request)
     {
         tasksApiService.UpdateTask(new Task
@@ -36,7 +36,7 @@ public class HomeworkController(ITasksApiService tasksApiService) : BaseControll
         return Ok();
     }
 
-    [HttpDelete("homework/{id}")]
+    [HttpDelete("schedule/{id:guid}/homework")]
     public IActionResult DeleteHomework(Guid id)
     {
         tasksApiService.DeleteTask(Guid.Empty); // todo get lesson info and fill taskId

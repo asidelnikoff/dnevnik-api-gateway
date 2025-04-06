@@ -3,8 +3,6 @@ name: Deploy Review
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   prepare-environment:

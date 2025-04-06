@@ -3,3 +3,5 @@ services:
     build:
       context: ./
       dockerfile: src/Dnevnik.ApiGateway/Dockerfile
+    ports:
+      - "5001:8080"

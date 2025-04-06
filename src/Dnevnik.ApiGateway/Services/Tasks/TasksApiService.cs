@@ -12,7 +12,7 @@ public class TasksApiService(IHttpService httpService) : BaseApiService, ITasksA
         throw new NotImplementedException();
     }
 
-    public Task GetTask(Guid id)
+    public Task? GetTaskOrDefault(Guid id)
     {
         throw new NotImplementedException();
     }

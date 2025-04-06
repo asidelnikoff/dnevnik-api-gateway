@@ -1,6 +1,5 @@
-﻿services:
+services:
   dnevnik.apigateway:
-    image: dnevnik.apigateway
     build:
-      context: .
-      dockerfile: Dnevnik.ApiGateway/Dockerfile
+      context: ./
+      dockerfile: src/Dnevnik.ApiGateway/Dockerfile

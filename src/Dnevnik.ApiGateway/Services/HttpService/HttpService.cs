@@ -45,7 +45,7 @@ public class HttpService(
         return await SendRequestAsync(httpClient.PostAsync(request.Route, content), $"{httpClient.BaseAddress}{request.Route}");
     }
 
-    public async Task<string> GetAsync(HttpGetRequest request)
+    public async Task<string> GetAsync(BaseHttpRequest request)
     {
         Log(
             LogLevel.Information,
@@ -56,6 +56,19 @@ public class HttpService(
         );
 
         return await SendRequestAsync(httpClient.GetAsync(request.Route), $"{httpClient.BaseAddress}{request.Route}");
+    }
+    
+    public async Task<string> DeleteAsync(BaseHttpRequest request)
+    {
+        Log(
+            LogLevel.Information,
+            "{0}.{1}: route = {2}",
+            clientName,
+            nameof(DeleteAsync),
+            request.Route
+        );
+
+        return await SendRequestAsync(httpClient.DeleteAsync(request.Route), $"{httpClient.BaseAddress}{request.Route}");
     }
 
     private async Task<string> SendRequestAsync(Task<HttpResponseMessage> request, string url)

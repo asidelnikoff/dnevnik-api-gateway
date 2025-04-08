@@ -1,11 +1,19 @@
-﻿namespace Dnevnik.ApiGateway.Infrastructure.Configuration;
+﻿using Microsoft.AspNetCore.HttpLogging;
+
+namespace Dnevnik.ApiGateway.Infrastructure.Configuration;
 
 public static class BuilderConfigurationExtensions
 {
     public static void Configure(this WebApplicationBuilder builder)
     {
         var services = builder.Services;
-        
+
+        services.AddHttpLogging(o =>
+        {
+            o.CombineLogs = false;
+            o.LoggingFields = HttpLoggingFields.All;
+        });
+            
         services.AddControllers();
         
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

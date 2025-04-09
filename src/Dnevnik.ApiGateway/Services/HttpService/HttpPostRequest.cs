@@ -1,8 +1,7 @@
 namespace Dnevnik.ApiGateway.Services.HttpService;
 
-public class HttpPostRequest
+public class HttpPostRequest : BaseHttpRequest
 {
-    public required string Route { get; set; }
-    public string? Body { get; set; }
+    public string? Body { get; init; }
     public string? Authorization { get; set; }
 }

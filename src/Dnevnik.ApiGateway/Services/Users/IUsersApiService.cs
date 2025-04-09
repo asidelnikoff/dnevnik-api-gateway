@@ -9,10 +9,9 @@ public interface IUsersApiService
 {
     // todo auth methods
     
-    User CreateUser(CreateUser info);
-    User GetUserInfo(Guid id);
-    Teacher GetTeacherInfo(Guid id);
-    User UpdateUserInfo(Guid id, CreateUser info);
-    void DeleteUser(Guid id);
+    Task<User> CreateUserAsync(CreateUser info);
+    Task<User> GetUserInfoAsync(Guid id);
+    Task<User> UpdateUserInfoAsync(Guid id, CreateUser info);
+    Task DeleteUserAsync(Guid id);
     User[] GetUsersList(/*todo filter parameters*/);
 }

@@ -2,5 +2,5 @@
 
 public class Teacher : User
 {
-    public required string Subject { get; init; }
+    public string? Subject { get; init; }
 }

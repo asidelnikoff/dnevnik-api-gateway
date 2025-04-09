@@ -8,29 +8,47 @@ namespace Dnevnik.ApiGateway.Services.Users;
 
 public class UsersApiService(IHttpService httpService) : BaseApiService, IUsersApiService
 {
-    public User CreateUser(CreateUser info)
+    private const string UsersRoute = "users";
+
+    public async Task<User> CreateUserAsync(CreateUser info)
     {
-        throw new NotImplementedException();
+        var response = await httpService.PostAsync(new HttpPostRequest
+        {
+            Body = JsonSerialize(info),
+            Route = UsersRoute
+        });
+
+        return JsonDeserialize<User>(response);
     }
 
-    public User GetUserInfo(Guid id)
+    public async Task<User> GetUserInfoAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var response = await httpService.GetAsync(new BaseHttpRequest { Route = $"{UsersRoute}/{id}" });
+
+        return JsonDeserialize<User>(response);
     }
 
-    public Teacher GetTeacherInfo(Guid id)
+    public async Task<Teacher> GetTeacherInfoAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var response = await httpService.GetAsync(new BaseHttpRequest { Route = $"{UsersRoute}/{id}" });
+
+        return JsonDeserialize<Teacher>(response);
     }
 
-    public User UpdateUserInfo(Guid id, CreateUser info)
+    public async Task<User> UpdateUserInfoAsync(Guid id, CreateUser info)
     {
-        throw new NotImplementedException();
+        var response = await httpService.PutAsync(new HttpPostRequest
+        {
+            Route = $"{UsersRoute}/{id}",
+            Body = JsonSerialize(info)
+        });
+
+        return JsonDeserialize<User>(response);
     }
 
-    public void DeleteUser(Guid id)
+    public async Task DeleteUserAsync(Guid id)
     {
-        throw new NotImplementedException();
+        await httpService.DeleteAsync(new BaseHttpRequest { Route = $"{UsersRoute}/{id}" });
     }
 
     public User[] GetUsersList()

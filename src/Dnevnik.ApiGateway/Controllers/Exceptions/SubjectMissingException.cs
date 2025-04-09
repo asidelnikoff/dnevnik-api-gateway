@@ -1,3 +1,3 @@
 ﻿namespace Dnevnik.ApiGateway.Controllers.Exceptions;
 
-public class SubjectMissingException() : Exception("Subject is missing");
+public class SubjectMissingException(string name) : Exception($"Subject is missing for user {name}");

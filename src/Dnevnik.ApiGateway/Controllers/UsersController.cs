@@ -35,6 +35,7 @@ public class UsersController(IUsersApiService usersApiService) : BaseController
             Patronymic = request.MiddleName,
             Email = request.Login,
             Password = request.Password,
+            ClassName = request.Class,
             Type = UserType.Student
         });
 
@@ -45,7 +46,7 @@ public class UsersController(IUsersApiService usersApiService) : BaseController
             LastName = answer.Surname,
             MiddleName = answer.Patronymic,
             Login = answer.Email,
-            Class = answer.ClassName ?? throw new ClassMissingException(),
+            Class = answer.ClassName ?? throw new ClassMissingException($"{answer.Name} {answer.Surname} {answer.Patronymic}"),
             Role = answer.Type switch
             {
                 UserType.Student => Role.Student,
@@ -64,6 +65,7 @@ public class UsersController(IUsersApiService usersApiService) : BaseController
             Patronymic = request.MiddleName,
             Email = request.Login,
             Password = request.Password,
+            SubjectName = request.Subject,
             Type = request.Role switch
             {
                 Role.Teacher => UserType.Teacher,
@@ -85,7 +87,7 @@ public class UsersController(IUsersApiService usersApiService) : BaseController
             .Select(a => new StudentInfoResponse
             {
                 FullName = $"{a.Name} {a.Surname} {a.Patronymic}".Trim(),
-                Class = a.ClassName ?? throw new ClassMissingException()
+                Class = a.ClassName ?? throw new ClassMissingException($"{a.Name} {a.Surname} {a.Patronymic}")
             })
             .ToArray();
     }
@@ -100,7 +102,7 @@ public class UsersController(IUsersApiService usersApiService) : BaseController
             .Select(a => new StuffInfoResponse
             {
                 FullName = $"{a.Name} {a.Surname} {a.Patronymic}".Trim(),
-                Subject = a.SubjectName ?? throw new SubjectMissingException()
+                Subject = a.SubjectName ?? throw new SubjectMissingException($"{a.Name} {a.Surname} {a.Patronymic}")
             })
             .ToArray();
     }

@@ -28,14 +28,14 @@ public class UsersApiService(IHttpService httpService) : BaseApiService, IUsersA
         return JsonDeserialize<User>(response);
     }
 
-    public async Task<Teacher> GetTeacherInfo(Guid id)
+    public async Task<Teacher> GetTeacherInfoAsync(Guid id)
     {
         var response = await httpService.GetAsync(new BaseHttpRequest { Route = $"{UsersRoute}/{id}" });
 
         return JsonDeserialize<Teacher>(response);
     }
 
-    public async Task<User> UpdateUserInfo(Guid id, CreateUser info)
+    public async Task<User> UpdateUserInfoAsync(Guid id, CreateUser info)
     {
         var response = await httpService.PutAsync(new HttpPostRequest
         {

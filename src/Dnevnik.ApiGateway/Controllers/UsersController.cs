@@ -19,7 +19,7 @@ public class UsersController(IUsersApiService usersApiService) : BaseController
             Password = request.NewPassword,
             Email = request.NewLogin
         };
-        usersApiService.UpdateUserInfo(Guid.Empty, apiRequest);
+        usersApiService.UpdateUserInfoAsync(Guid.Empty, apiRequest);
 
         return Ok();
     }

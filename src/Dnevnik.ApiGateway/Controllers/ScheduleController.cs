@@ -30,7 +30,8 @@ public class ScheduleController(
                 StartTime = startTime,
                 EndTime = endTime
             })
-            .Select(a => MapToScheduleItem(a, startDate, endDate))
+            .Select(async a => await MapToScheduleItem(a, startDate, endDate))
+            .Select(a => a.Result)
             .ToArray();
     }
 
@@ -49,24 +50,25 @@ public class ScheduleController(
                 StartTime = startTime,
                 EndTime = endTime
             })
-            .Select(a => MapToScheduleItem(a, startDate, endDate))
+            .Select(async a => await MapToScheduleItem(a, startDate, endDate))
+            .Select(a => a.Result)
             .ToArray();
     }
     
     [HttpPost("schedule")]
-    public ScheduleItem CreateNewScheduleItem(CreateScheduleItemRequest request)
+    public async Task<ScheduleItem> CreateNewScheduleItem(CreateScheduleItemRequest request)
     {
         var lesson = scheduleApiService.CreateLesson(MapToCreateLesson(request));
 
-        return MapToScheduleItem(lesson, request.StartDate, request.EndDate);
+        return await MapToScheduleItem(lesson, request.StartDate, request.EndDate);
     }
 
     [HttpPut("schedule/{id}")]
-    public ScheduleItem UpdateScheduleItem(Guid id, CreateScheduleItemRequest request)
+    public async Task<ScheduleItem> UpdateScheduleItem(Guid id, CreateScheduleItemRequest request)
     {
         var lesson = scheduleApiService.UpdateLesson(id, MapToCreateLesson(request));
 
-        return MapToScheduleItem(lesson, request.StartDate, request.EndDate);
+        return await MapToScheduleItem(lesson, request.StartDate, request.EndDate);
     }
 
     [HttpDelete("schedule/{id}")]
@@ -77,11 +79,11 @@ public class ScheduleController(
         return Ok();
     }
 
-    private ScheduleItem MapToScheduleItem(Lesson lesson, DateOnly startDate, DateOnly endDate) => new ScheduleItem
+    private async Task<ScheduleItem> MapToScheduleItem(Lesson lesson, DateOnly startDate, DateOnly endDate) => new ScheduleItem
     {
         Id = lesson.Id,
         Class = lesson.ClassName,
-        Teacher = usersApiService.GetTeacherInfo(lesson.TeacherId),
+        Teacher = await usersApiService.GetTeacherInfoAsync(lesson.TeacherId),
         Homework = tasksApiService.GetTaskOrDefault(lesson.Task)?.Payload,
         StartTime = lesson.StartTime.ToString("hh:mm"),
         EndTime = lesson.EndTime.ToString("hh:mm"),

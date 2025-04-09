@@ -28,14 +28,22 @@ public class UsersApiService(IHttpService httpService) : BaseApiService, IUsersA
         return JsonDeserialize<User>(response);
     }
 
-    public Teacher GetTeacherInfo(Guid id)
+    public async Task<Teacher> GetTeacherInfo(Guid id)
     {
-        throw new NotImplementedException();
+        var response = await httpService.GetAsync(new BaseHttpRequest { Route = $"{UsersRoute}/{id}" });
+
+        return JsonDeserialize<Teacher>(response);
     }
 
-    public User UpdateUserInfo(Guid id, CreateUser info)
+    public async Task<User> UpdateUserInfo(Guid id, CreateUser info)
     {
-        throw new NotImplementedException();
+        var response = await httpService.PutAsync(new HttpPostRequest
+        {
+            Route = $"{UsersRoute}/{id}",
+            Body = JsonSerialize(info)
+        });
+
+        return JsonDeserialize<User>(response);
     }
 
     public async Task DeleteUserAsync(Guid id)

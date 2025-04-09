@@ -11,8 +11,8 @@ public interface IUsersApiService
     
     Task<User> CreateUserAsync(CreateUser info);
     Task<User> GetUserInfoAsync(Guid id);
-    Teacher GetTeacherInfo(Guid id);
-    User UpdateUserInfo(Guid id, CreateUser info);
+    Task<Teacher> GetTeacherInfo(Guid id);
+    Task<User> UpdateUserInfo(Guid id, CreateUser info);
     Task DeleteUserAsync(Guid id);
     User[] GetUsersList(/*todo filter parameters*/);
 }

@@ -1,4 +1,5 @@
 using Dnevnik.ApiGateway.Infrastructure.Configuration;
+using Dnevnik.ApiGateway.Infrastructure.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configure();
@@ -6,12 +7,11 @@ builder.Configure();
 
 var app = builder.Build();
 
+app.UseExceptionMiddleware();
+
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.MapControllers();
 

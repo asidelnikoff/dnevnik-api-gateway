@@ -71,6 +71,35 @@ public class HttpService(
         return await SendRequestAsync(httpClient.DeleteAsync(request.Route), $"{httpClient.BaseAddress}{request.Route}");
     }
 
+    public async Task<string> PutAsync(HttpPostRequest request)
+    {
+        Log(
+            LogLevel.Information,
+            "{0}. {1}: bodyRequest = {2}, route = {3}{4}",
+            clientName,
+            nameof(PutAsync),
+            request.Body,
+            httpClient.BaseAddress,
+            request.Route
+        );
+
+        HttpContent? content = null;
+        if (!string.IsNullOrEmpty(request.Body))
+        {
+            content = new StringContent(request.Body, Encoding.UTF8, MediaTypeNames.Application.Json);
+        }
+
+        if (!string.IsNullOrEmpty(request.Authorization))
+        {
+            content ??= new StringContent("");
+
+            httpClient.DefaultRequestHeaders.Add("Authorization", request.Authorization);
+        }
+
+        return await SendRequestAsync(httpClient.PutAsync(request.Route, content), $"{httpClient.BaseAddress}{request.Route}");
+    }
+    
+
     private async Task<string> SendRequestAsync(Task<HttpResponseMessage> request, string url)
     {
         var sw = Stopwatch.StartNew();

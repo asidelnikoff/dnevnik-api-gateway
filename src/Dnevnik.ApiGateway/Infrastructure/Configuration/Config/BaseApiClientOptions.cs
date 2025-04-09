@@ -2,6 +2,6 @@
 
 public class BaseApiClientOptions
 {
-    public required string Url { get; init; }
+    public required string BaseUrl { get; init; }
     public TimeSpan Timeout { get; init; }
 }

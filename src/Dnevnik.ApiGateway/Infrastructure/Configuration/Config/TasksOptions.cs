@@ -2,5 +2,5 @@
 
 public class TasksOptions : BaseApiClientOptions
 {
-    
+    public static string Tasks = "Tasks";
 }

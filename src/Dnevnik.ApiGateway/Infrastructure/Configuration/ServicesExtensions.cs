@@ -26,7 +26,7 @@ public static class ServicesExtensions
                 .GetRequiredService<IOptions<UsersOptions>>()
                 .Value;
 
-            client.BaseAddress = new Uri(apiClientOptions.Url);
+            client.BaseAddress = new Uri(apiClientOptions.BaseUrl);
             client.Timeout = apiClientOptions.Timeout;
         });
 
@@ -52,7 +52,7 @@ public static class ServicesExtensions
                 .GetRequiredService<IOptions<ScheduleOptions>>()
                 .Value;
 
-            client.BaseAddress = new Uri(apiClientOptions.Url);
+            client.BaseAddress = new Uri(apiClientOptions.BaseUrl);
             client.Timeout = apiClientOptions.Timeout;
         });
 
@@ -78,7 +78,7 @@ public static class ServicesExtensions
                 .GetRequiredService<IOptions<TasksOptions>>()
                 .Value;
 
-            client.BaseAddress = new Uri(apiClientOptions.Url);
+            client.BaseAddress = new Uri(apiClientOptions.BaseUrl);
             client.Timeout = apiClientOptions.Timeout;
         });
 

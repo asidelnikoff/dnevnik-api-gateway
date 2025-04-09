@@ -2,5 +2,5 @@
 
 public class UsersOptions : BaseApiClientOptions
 {
-    
+    public static string Users = "Users";
 }

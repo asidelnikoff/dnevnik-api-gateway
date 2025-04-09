@@ -1,5 +1,6 @@
 ﻿using Dnevnik.ApiGateway.Controllers.Dto.Requests;
 using Dnevnik.ApiGateway.Controllers.Dto.Responses;
+using Dnevnik.ApiGateway.Extensions;
 using Dnevnik.ApiGateway.Services.Schedule;
 using Dnevnik.ApiGateway.Services.Schedule.Dto;
 using Dnevnik.ApiGateway.Services.Schedule.Models;
@@ -58,7 +59,7 @@ public class ScheduleController(
     [HttpPost("schedule")]
     public async Task<ScheduleItem> CreateNewScheduleItem(CreateScheduleItemRequest request)
     {
-        var lesson = scheduleApiService.CreateLesson(MapToCreateLesson(request));
+        var lesson = scheduleApiService.CreateLesson(request.MapToCreateLesson());
 
         return await MapToScheduleItem(lesson, request.StartDate, request.EndDate);
     }
@@ -66,7 +67,7 @@ public class ScheduleController(
     [HttpPut("schedule/{id}")]
     public async Task<ScheduleItem> UpdateScheduleItem(Guid id, CreateScheduleItemRequest request)
     {
-        var lesson = scheduleApiService.UpdateLesson(id, MapToCreateLesson(request));
+        var lesson = scheduleApiService.UpdateLesson(id, request.MapToCreateLesson());
 
         return await MapToScheduleItem(lesson, request.StartDate, request.EndDate);
     }
@@ -83,7 +84,7 @@ public class ScheduleController(
     {
         Id = lesson.Id,
         Class = lesson.ClassName,
-        Teacher = await usersApiService.GetTeacherInfoAsync(lesson.TeacherId),
+        Teacher = (await usersApiService.GetUserInfoAsync(lesson.TeacherId)).MapToTeacher(),
         Homework = tasksApiService.GetTaskOrDefault(lesson.Task)?.Payload,
         StartTime = lesson.StartTime.ToString("hh:mm"),
         EndTime = lesson.EndTime.ToString("hh:mm"),
@@ -94,15 +95,5 @@ public class ScheduleController(
         LessonGrade = null // todo fill lesson grade
     };
 
-    private CreateLesson MapToCreateLesson(CreateScheduleItemRequest request) => new()
-    {
-        Subject = new Subject { Name = request.Subject },
-        ClassName = request.Class,
-        TeacherId = request.TeacherId,
-        DayWeek = request.WeekDays,
-        StartDate = request.StartDate,
-        EndDate = request.EndDate,
-        StartTime = TimeOnly.Parse(request.StartTime),
-        EndTime = TimeOnly.Parse(request.EndTime)
-    };
+    
 }

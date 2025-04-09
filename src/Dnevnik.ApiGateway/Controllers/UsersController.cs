@@ -2,6 +2,7 @@
 using Dnevnik.ApiGateway.Controllers.Dto.Requests;
 using Dnevnik.ApiGateway.Controllers.Dto.Responses;
 using Dnevnik.ApiGateway.Controllers.Exceptions;
+using Dnevnik.ApiGateway.Extensions;
 using Dnevnik.ApiGateway.Services.Users;
 using Dnevnik.ApiGateway.Services.Users.Models;
 
@@ -71,21 +72,7 @@ public class UsersController(IUsersApiService usersApiService) : BaseController
             }
         });
 
-        return new Teacher
-        {
-            Id = answer.Id,
-            FirstName = answer.Name,
-            LastName = answer.Surname,
-            MiddleName = answer.Patronymic,
-            Login = answer.Email,
-            Role = answer.Type switch
-            {
-                UserType.Teacher => Role.Teacher,
-                UserType.Headteacher => Role.Headteacher,
-                _ => throw new ArgumentOutOfRangeException(nameof(answer), answer.Type, null)
-            },
-            Subject = answer.SubjectName ?? throw new SubjectMissingException()
-        };
+        return answer.MapToTeacher();
     }
 
     [HttpGet("users/students")]

@@ -1,5 +1,9 @@
 ﻿using Dnevnik.ApiGateway.Infrastructure.Configuration.Config;
+using Dnevnik.ApiGateway.Infrastructure.Metrics;
+using Dnevnik.ApiGateway.Infrastructure.Metrics.Health;
 using Dnevnik.ApiGateway.Services.HttpService;
+
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -8,10 +12,12 @@ namespace Dnevnik.ApiGateway.Infrastructure.Configuration;
 
 public static class TelemetryExtensions
 {
-    public static IServiceCollection AddTelemetry(this IServiceCollection services, IConfiguration configuration, string applicationName)
+    public static IServiceCollection AddTelemetry(this IServiceCollection services, IConfiguration configuration,
+        string applicationName)
     {
         services
-            .AddMetrics();
+            .AddMetrics()
+            .AddTelemetryHealthCheckPublisher();
 
         services
             .AddOpenTelemetry()
@@ -21,6 +27,8 @@ public static class TelemetryExtensions
                 .AddHttpClientInstrumentation()
                 .AddRuntimeInstrumentation()
                 .AddMeter(HttpServiceMetric.Name)
+                .AddMeter(HealthMetric.Name)
+                .AddMeter(AppRequestsMetric.Name)
                 .AddPrometheusExporter(options =>
                 {
                     var prometheusOptions = configuration.GetRequiredSection("Prometheus").Get<PrometheusOptions>()!;
@@ -32,8 +40,12 @@ public static class TelemetryExtensions
 
     private static IServiceCollection AddMetrics(this IServiceCollection services)
     {
+        services.AddSingleton<AppRequestsMetric>();
         services.AddSingleton<HttpServiceMetric>();
-        
+
+        services.AddSingleton<HealthMetric>();
+        services.AddSingleton<IHealthCheckPublisher, HealthCheckPublisher>();
+
         return services;
     }
 }

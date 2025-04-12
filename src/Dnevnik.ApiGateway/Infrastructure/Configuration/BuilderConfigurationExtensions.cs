@@ -12,6 +12,7 @@ public static class BuilderConfigurationExtensions
         var services = builder.Services;
         services.RegisterOptions(builder.Configuration);
         
+        services.AddHttpLoggingInterceptor<HttpLoggingInterceptor>();
         services.AddHttpLogging(o =>
         {
             o.CombineLogs = false;

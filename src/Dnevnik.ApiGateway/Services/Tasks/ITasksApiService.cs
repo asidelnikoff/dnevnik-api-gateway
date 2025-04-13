@@ -6,9 +6,9 @@ namespace Dnevnik.ApiGateway.Services.Tasks;
 
 public interface ITasksApiService
 {
-    Task CreateTask(CreateTask task);
+    Task<Task> CreateTask(CreateTask task);
     Task<Task?> GetTaskOrDefault(Guid id);
-    Task UpdateTask(Task updatedTask);
+    Task<Task> UpdateTask(Task updatedTask);
     void DeleteTask(Guid id);
     
 }

@@ -7,23 +7,41 @@ namespace Dnevnik.ApiGateway.Services.Tasks;
 
 public class TasksApiService(IHttpService httpService) : BaseApiService, ITasksApiService
 {
-    public Task CreateTask(CreateTask task)
+    public async Task<Task> CreateTask(CreateTask task)
     {
-        throw new NotImplementedException();
+        var responce = await httpService.PostAsync(new HttpPostRequest
+        {
+            Route = "task/create-with-assignment",
+            Body = JsonSerialize(task)
+        });
+        return JsonDeserialize<Task>(responce);
     }
 
-    public Task<Task?> GetTaskOrDefault(Guid id)
+    public async Task<Task?> GetTaskOrDefault(Guid id)
     {
-        throw new NotImplementedException();
+        var response = await httpService.GetAsync(new BaseHttpRequest
+        {
+            Route = $"task/{id}"
+        });
+        
+        return JsonDeserialize<Task>(response);
     }
 
-    public Task UpdateTask(Task updatedTask)
+    public async Task<Task> UpdateTask(Task updatedTask)
     {
-        throw new NotImplementedException();
+        var responce = await httpService.PostAsync(new HttpPostRequest
+        {
+            Route = "task/assignment-update",
+            Body = JsonSerialize(updatedTask)
+        });
+        return JsonDeserialize<Task>(responce);
     }
 
-    public void DeleteTask(Guid id)
+    public async void DeleteTask(Guid id)
     {
-        throw new NotImplementedException();
+        await httpService.GetAsync(new DeleteHttpRequest
+        {
+            Route = $"task/{id}/delete"
+        });
     }
 }

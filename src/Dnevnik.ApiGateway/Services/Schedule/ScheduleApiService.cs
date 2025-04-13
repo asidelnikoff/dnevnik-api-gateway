@@ -12,7 +12,7 @@ public class ScheduleApiService(IHttpService httpService) : BaseApiService, ISch
         throw new NotImplementedException();
     }
 
-    public Lesson[] GetUserSchedule(Guid uesrId, Role role)
+    public Task<Lesson[]> GetUserSchedule(Guid uesrId, Role role)
     {
         throw new NotImplementedException();
     }

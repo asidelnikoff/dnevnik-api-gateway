@@ -1,20 +1,16 @@
 ﻿using Dnevnik.ApiGateway.Controllers.Dto.Requests;
 using Dnevnik.ApiGateway.Controllers.Dto.Responses;
 using Dnevnik.ApiGateway.Extensions;
-using Dnevnik.ApiGateway.Services.Schedule;
+using Dnevnik.ApiGateway.Services.ApiService;
 using Dnevnik.ApiGateway.Services.Schedule.Dto;
 using Dnevnik.ApiGateway.Services.Schedule.Models;
-using Dnevnik.ApiGateway.Services.Tasks;
-using Dnevnik.ApiGateway.Services.Users;
 
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dnevnik.ApiGateway.Controllers;
 
 public class ScheduleController(
-    IScheduleApiService scheduleApiService,
-    IUsersApiService usersApiService,
-    ITasksApiService tasksApiService) : BaseController
+    IApiServiceFactory apiServiceFactory) : BaseController
 {
     [HttpGet("schedule")]
     public ScheduleItem[] GetSchedule(
@@ -23,7 +19,7 @@ public class ScheduleController(
         [FromQuery] TimeOnly startTime,
         [FromQuery] TimeOnly endTime)
     {
-        return scheduleApiService
+        return apiServiceFactory.CreateScheduleApiService(nameof(ScheduleController))
             .GetSummarySchedule(new ScheduleRequest
             {
                 StartDate = startDate,
@@ -43,7 +39,7 @@ public class ScheduleController(
         [FromQuery] TimeOnly startTime,
         [FromQuery] TimeOnly endTime)
     {
-        return scheduleApiService
+        return apiServiceFactory.CreateScheduleApiService(nameof(ScheduleController))
             .GetSummarySchedule(new ScheduleRequest
             {
                 StartDate = startDate,
@@ -59,7 +55,8 @@ public class ScheduleController(
     [HttpPost("schedule")]
     public async Task<ScheduleItem> CreateNewScheduleItem(CreateScheduleItemRequest request)
     {
-        var lesson = scheduleApiService.CreateLesson(request.MapToCreateLesson());
+        var lesson = apiServiceFactory.CreateScheduleApiService(nameof(ScheduleController))
+            .CreateLesson(request.MapToCreateLesson());
 
         return await MapToScheduleItem(lesson, request.StartDate, request.EndDate);
     }
@@ -67,7 +64,8 @@ public class ScheduleController(
     [HttpPut("schedule/{id}")]
     public async Task<ScheduleItem> UpdateScheduleItem(Guid id, CreateScheduleItemRequest request)
     {
-        var lesson = scheduleApiService.UpdateLesson(id, request.MapToCreateLesson());
+        var lesson = apiServiceFactory.CreateScheduleApiService(nameof(ScheduleController))
+            .UpdateLesson(id, request.MapToCreateLesson());
 
         return await MapToScheduleItem(lesson, request.StartDate, request.EndDate);
     }
@@ -75,7 +73,7 @@ public class ScheduleController(
     [HttpDelete("schedule/{id}")]
     public IActionResult DeleteScheduleItem(Guid id)
     {
-        scheduleApiService.DeleteLesson(id);
+        apiServiceFactory.CreateScheduleApiService(nameof(ScheduleController)).DeleteLesson(id);
         
         return Ok();
     }
@@ -84,8 +82,10 @@ public class ScheduleController(
     {
         Id = lesson.Id,
         Class = lesson.ClassName,
-        Teacher = (await usersApiService.GetUserInfoAsync(lesson.TeacherId)).MapToTeacher(),
-        Homework = tasksApiService.GetTaskOrDefault(lesson.Task)?.Payload,
+        Teacher = (await apiServiceFactory.CreateUsersApiService(nameof(ScheduleController))
+            .GetUserInfoAsync(lesson.TeacherId))
+            .MapToTeacher(),
+        Homework = (await apiServiceFactory.CreateTasksApiService(nameof(ScheduleController)).GetTaskOrDefault(lesson.Task))?.Payload,
         StartTime = lesson.StartTime.ToString("hh:mm"),
         EndTime = lesson.EndTime.ToString("hh:mm"),
         Subject = lesson.Subject.Name,
@@ -94,6 +94,4 @@ public class ScheduleController(
         HomeworkGrade = null, // todo fill homework grade
         LessonGrade = null // todo fill lesson grade
     };
-
-    
 }

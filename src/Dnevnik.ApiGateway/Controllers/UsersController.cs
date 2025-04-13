@@ -3,14 +3,14 @@ using Dnevnik.ApiGateway.Controllers.Dto.Requests;
 using Dnevnik.ApiGateway.Controllers.Dto.Responses;
 using Dnevnik.ApiGateway.Controllers.Exceptions;
 using Dnevnik.ApiGateway.Extensions;
-using Dnevnik.ApiGateway.Services.Users;
+using Dnevnik.ApiGateway.Services.ApiService;
 using Dnevnik.ApiGateway.Services.Users.Models;
 
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dnevnik.ApiGateway.Controllers;
 
-public class UsersController(IUsersApiService usersApiService) : BaseController
+public class UsersController(IApiServiceFactory apiServiceFactory) : BaseController
 {
     [HttpPut("users/me")]
     public IActionResult PutNewPassword(ChangePasswordRequest request)
@@ -20,7 +20,7 @@ public class UsersController(IUsersApiService usersApiService) : BaseController
             Password = request.NewPassword,
             Email = request.NewLogin
         };
-        usersApiService.UpdateUserInfoAsync(Guid.Empty, apiRequest);
+        apiServiceFactory.CreateUsersApiService(nameof(UsersController)).UpdateUserInfoAsync(Guid.Empty, apiRequest);
 
         return Ok();
     }
@@ -28,7 +28,8 @@ public class UsersController(IUsersApiService usersApiService) : BaseController
     [HttpPost("users/students")]
     public async Task<Student> PostCreateNewStudent(CreateStudentRequest request)
     {
-        var answer = await usersApiService.CreateUserAsync(new CreateUser()
+        var answer = await apiServiceFactory.CreateUsersApiService(nameof(UsersController))
+            .CreateUserAsync(new CreateUser()
         {
             Name = request.FirstName,
             Surname = request.LastName,
@@ -58,21 +59,22 @@ public class UsersController(IUsersApiService usersApiService) : BaseController
     [HttpPost("users/teachers")]
     public async Task<Teacher> PostCreateNewTeacher(CreateTeacherRequest request)
     {
-        var answer = await usersApiService.CreateUserAsync(new CreateUser
-        {
-            Name = request.FirstName,
-            Surname = request.LastName,
-            Patronymic = request.MiddleName,
-            Email = request.Login,
-            Password = request.Password,
-            SubjectName = request.Subject,
-            Type = request.Role switch
+        var answer = await apiServiceFactory.CreateUsersApiService(nameof(UsersController))
+            .CreateUserAsync(new CreateUser
             {
-                Role.Teacher => UserType.Teacher,
-                Role.Headteacher => UserType.Headteacher,
-                _ => throw new UnsupportedRoleException(request.Role)
-            }
-        });
+                Name = request.FirstName,
+                Surname = request.LastName,
+                Patronymic = request.MiddleName,
+                Email = request.Login,
+                Password = request.Password,
+                SubjectName = request.Subject,
+                Type = request.Role switch
+                {
+                    Role.Teacher => UserType.Teacher,
+                    Role.Headteacher => UserType.Headteacher,
+                    _ => throw new UnsupportedRoleException(request.Role)
+                }
+            });
 
         return answer.MapToTeacher();
     }
@@ -83,7 +85,8 @@ public class UsersController(IUsersApiService usersApiService) : BaseController
         [FromQuery] string? search,
         [FromQuery] StudentsSort sort)
     {
-        return usersApiService.GetUsersList()
+        return apiServiceFactory.CreateUsersApiService(nameof(UsersController))
+            .GetUsersList()
             .Select(a => new StudentInfoResponse
             {
                 FullName = $"{a.Name} {a.Surname} {a.Patronymic}".Trim(),
@@ -98,7 +101,8 @@ public class UsersController(IUsersApiService usersApiService) : BaseController
         [FromQuery] string? search,
         [FromQuery] StudentsSort sort)
     {
-        return usersApiService.GetUsersList()
+        return apiServiceFactory.CreateUsersApiService(nameof(UsersController))
+            .GetUsersList()
             .Select(a => new StuffInfoResponse
             {
                 FullName = $"{a.Name} {a.Surname} {a.Patronymic}".Trim(),

@@ -1,5 +1,4 @@
-﻿using Dnevnik.ApiGateway.Controllers.Dto;
-using Dnevnik.ApiGateway.Services.Users.Models;
+﻿using Dnevnik.ApiGateway.Services.Users.Models;
 
 using User = Dnevnik.ApiGateway.Services.Users.Models.User;
 

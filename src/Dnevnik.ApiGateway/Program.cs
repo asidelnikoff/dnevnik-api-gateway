@@ -15,6 +15,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.MapPrometheusScrapingEndpoint();
+app.MapHealthChecks();
 app.MapControllers();
 
 app.Run();

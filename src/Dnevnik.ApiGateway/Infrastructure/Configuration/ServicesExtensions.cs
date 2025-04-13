@@ -1,4 +1,5 @@
 ﻿using Dnevnik.ApiGateway.Infrastructure.Configuration.Config;
+using Dnevnik.ApiGateway.Services.ApiService;
 using Dnevnik.ApiGateway.Services.HttpService;
 using Dnevnik.ApiGateway.Services.Schedule;
 using Dnevnik.ApiGateway.Services.Tasks;
@@ -12,87 +13,15 @@ public static class ServicesExtensions
 {
     public static IServiceCollection AddAppServices(this IServiceCollection services)
     {
-        return services
-            .AddUsersService()
-            .AddScheduleService()
-            .AddTasksService();
+        return services.AddApiServices();
     }
 
-    private static IServiceCollection AddUsersService(this IServiceCollection services)
+    private static IServiceCollection AddApiServices(this IServiceCollection services)
     {
-        services.AddHttpClient<IUsersApiService>((provider, client) =>
-        {
-            var apiClientOptions = provider
-                .GetRequiredService<IOptions<UsersOptions>>()
-                .Value;
+        services.AddHttpClient<IScheduleApiService>();
+        services.AddHttpClient<ITasksApiService>();
+        services.AddHttpClient<IUsersApiService>();
 
-            client.BaseAddress = new Uri(apiClientOptions.BaseUrl);
-            client.Timeout = apiClientOptions.Timeout;
-        });
-
-        return services
-            .AddTransient<IUsersApiService>(provider =>
-            {
-                var httpClientFactory = provider.GetRequiredService<IHttpClientFactory>();
-                var httpClient = httpClientFactory.CreateClient(nameof(IUsersApiService));
-                var logger = provider.GetRequiredService<ILogger<HttpService>>();
-                var metric = provider.GetRequiredService<HttpServiceMetric>();
-
-                var httpService = new HttpService(httpClient, nameof(IUsersApiService), logger, metric);
-
-                return new UsersApiService(httpService);
-            });
-    }
-    
-    private static IServiceCollection AddScheduleService(this IServiceCollection services)
-    {
-        services.AddHttpClient<IScheduleApiService>((provider, client) =>
-        {
-            var apiClientOptions = provider
-                .GetRequiredService<IOptions<ScheduleOptions>>()
-                .Value;
-
-            client.BaseAddress = new Uri(apiClientOptions.BaseUrl);
-            client.Timeout = apiClientOptions.Timeout;
-        });
-
-        return services
-            .AddTransient<IScheduleApiService>(provider =>
-            {
-                var httpClientFactory = provider.GetRequiredService<IHttpClientFactory>();
-                var httpClient = httpClientFactory.CreateClient(nameof(IScheduleApiService));
-                var logger = provider.GetRequiredService<ILogger<HttpService>>();
-                var metric = provider.GetRequiredService<HttpServiceMetric>();
-
-                var httpService = new HttpService(httpClient, nameof(IScheduleApiService), logger, metric);
-
-                return new ScheduleApiService(httpService);
-            });
-    }
-    
-    private static IServiceCollection AddTasksService(this IServiceCollection services)
-    {
-        services.AddHttpClient<ITasksApiService>((provider, client) =>
-        {
-            var apiClientOptions = provider
-                .GetRequiredService<IOptions<TasksOptions>>()
-                .Value;
-
-            client.BaseAddress = new Uri(apiClientOptions.BaseUrl);
-            client.Timeout = apiClientOptions.Timeout;
-        });
-
-        return services
-            .AddTransient<ITasksApiService>(provider =>
-            {
-                var httpClientFactory = provider.GetRequiredService<IHttpClientFactory>();
-                var httpClient = httpClientFactory.CreateClient(nameof(ITasksApiService));
-                var logger = provider.GetRequiredService<ILogger<HttpService>>();
-                var metric = provider.GetRequiredService<HttpServiceMetric>();
-
-                var httpService = new HttpService(httpClient, nameof(ITasksApiService), logger, metric);
-
-                return new TasksApiService(httpService);
-            });
+        return services.AddTransient<IApiServiceFactory, ApiServiceFactory>();
     }
 }

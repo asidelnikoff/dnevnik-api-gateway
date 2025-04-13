@@ -18,7 +18,8 @@ public static class BuilderConfigurationExtensions
             o.CombineLogs = false;
             o.LoggingFields = HttpLoggingFields.All;
         });
-
+        
+        services.AddHealthChecks(builder.Configuration);
         services.AddResponseCompression();
         services.AddRouting();
         services.AddControllers()

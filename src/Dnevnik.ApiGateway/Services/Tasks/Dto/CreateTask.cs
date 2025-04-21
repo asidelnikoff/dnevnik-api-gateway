@@ -1,4 +1,4 @@
-﻿namespace Dnevnik.ApiGateway.Services.Tasks.Models;
+﻿namespace Dnevnik.ApiGateway.Services.Tasks.Dto;
 
 public class CreateTask
 {

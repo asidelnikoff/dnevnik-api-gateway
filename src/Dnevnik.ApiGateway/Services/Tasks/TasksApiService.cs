@@ -1,4 +1,7 @@
 ﻿using Dnevnik.ApiGateway.Services.HttpService;
+using Dnevnik.ApiGateway.Services.Tasks.Dto;
+using Dnevnik.ApiGateway.Services.Tasks.Dto.Requests;
+using Dnevnik.ApiGateway.Services.Tasks.Dto.Responses;
 using Dnevnik.ApiGateway.Services.Tasks.Models;
 
 using Task = Dnevnik.ApiGateway.Services.Tasks.Models.Task;
@@ -9,15 +12,30 @@ public class TasksApiService(IHttpService httpService) : BaseApiService, ITasksA
 {
     public async Task<Task> CreateTask(CreateTask task)
     {
-        var responce = await httpService.PostAsync(new HttpPostRequest
+        var taskResponse = JsonDeserialize<CreateTaskTemplateResponse>(await httpService.PostAsync(new HttpPostRequest
         {
-            Route = "task/create-with-assignment",
-            Body = JsonSerialize(task)
+            Route = "task",
+            Body = JsonSerialize(new CreateTaskTemplateRequest
+            {
+                Deadline = task.Deadline,
+                Payload = task.Payload
+            })
+        }));
+
+        await httpService.PostAsync(new HttpPostRequest
+        {
+            Route = "task/assignment",
+            Body = JsonSerialize(new AssignTaskRequest
+            {
+                AssignTo = [new AssignToRequest { Class = task.Class, LessonId = task.LessonId }],
+                TemplateTaskId = taskResponse.Id
+            })
         });
-        return JsonDeserialize<Task>(responce);
+
+        return await GetTask(taskResponse.Id);
     }
 
-    public async Task<Task?> GetTaskOrDefault(Guid id)
+    public async Task<Task> GetTask(Guid id)
     {
         var response = await httpService.GetAsync(new BaseHttpRequest
         {
@@ -29,17 +47,18 @@ public class TasksApiService(IHttpService httpService) : BaseApiService, ITasksA
 
     public async Task<Task> UpdateTask(Task updatedTask)
     {
-        var responce = await httpService.PostAsync(new HttpPostRequest
+        var response = await httpService.PutAsync(new HttpPostRequest
         {
-            Route = "task/assignment-update",
+            Route = "task/update",
             Body = JsonSerialize(updatedTask)
         });
-        return JsonDeserialize<Task>(responce);
+        
+        return JsonDeserialize<Task>(response);
     }
 
-    public async void DeleteTask(Guid id)
+    public async System.Threading.Tasks.Task DeleteTask(Guid id)
     {
-        await httpService.GetAsync(new DeleteHttpRequest
+        await httpService.DeleteAsync(new DeleteHttpRequest
         {
             Route = $"task/{id}/delete"
         });

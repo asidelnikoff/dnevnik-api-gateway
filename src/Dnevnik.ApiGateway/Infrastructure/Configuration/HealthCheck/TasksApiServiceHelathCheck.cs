@@ -8,6 +8,6 @@ public class TasksHealthCheck(IApiServiceFactory apiServiceFactory) : ApiHealthC
     protected override async Task MakeRequest()
     {
         var scheduleApiService = apiServiceFactory.CreateTasksApiService("health-check", false);
-        await scheduleApiService.GetTaskOrDefault(Guid.Empty);
+        await scheduleApiService.GetTask(Guid.Empty);
     }
 }

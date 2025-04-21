@@ -85,7 +85,7 @@ public class ScheduleController(
         Teacher = (await apiServiceFactory.CreateUsersApiService(nameof(ScheduleController))
             .GetUserInfoAsync(lesson.TeacherId))
             .MapToTeacher(),
-        Homework = (await apiServiceFactory.CreateTasksApiService(nameof(ScheduleController)).GetTaskOrDefault(lesson.Task))?.Payload,
+        Homework = (await apiServiceFactory.CreateTasksApiService(nameof(ScheduleController)).GetTask(lesson.Task))?.Payload,
         StartTime = lesson.StartTime.ToString("hh:mm"),
         EndTime = lesson.EndTime.ToString("hh:mm"),
         Subject = lesson.Subject.Name,

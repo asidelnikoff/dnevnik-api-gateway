@@ -20,7 +20,7 @@ public class ApiServiceFactory(
         where TOptions : BaseApiServiceOptions
     {
         var configuration = configurationProvider.GetRequiredService<IOptions<TOptions>>();
-        var httpClient = httpClientFactory.CreateClient(nameof(TApiServiceInterface));
+        var httpClient = httpClientFactory.CreateClient(typeof(TApiServiceInterface).Name);
         httpClient.BaseAddress = new Uri(configuration.Value.BaseUrl);
         httpClient.Timeout = configuration.Value.Timeout;
 

@@ -9,38 +9,117 @@ namespace Dnevnik.ApiGateway.Services.Schedule;
 
 public class ScheduleApiService(IHttpService httpService) : BaseApiService, IScheduleApiService
 {
-    public Task<Lesson[]> GetSummarySchedule(ScheduleRequest parameters)
+    private const string ScheduleRoute = "Schedule";
+    private const string LessonRoute = "Lesson";
+    private const string LessonCreateWithRepeatRoute = $"{LessonRoute}/CreateWithRepeats";
+
+    private const string DateFormat = "yyyy-MM-dd";
+    
+    private static readonly JsonSerializerOptions s_jsonSerializerOptions = new()
     {
-        throw new NotImplementedException();
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+    };
+
+    public async Task<Lesson[]> GetSummarySchedule(ScheduleRequest parameters)
+    {
+        var response = await httpService.GetAsync(new BaseHttpRequest
+        {
+            Route = $"{ScheduleRoute}?{CreateScheduleQuery(parameters)}"
+        });
+
+        return JsonDeserialize<Lesson[]>(response);
     }
 
-    public Task<Lesson[]> GetUserSchedule(string className, ScheduleRequest parameters)
+    public async Task<Lesson[]> GetUserSchedule(string className, ScheduleRequest parameters)
     {
-        throw new NotImplementedException();
+        var response = await httpService.GetAsync(new BaseHttpRequest
+        {
+            Route = $"{ScheduleRoute}/class/{className}?{CreateScheduleQuery(parameters)}" 
+        });
+
+        return JsonDeserialize<Lesson[]>(response).ToArray();
     }
 
-    public Task<Lesson> CreateLesson(CreateLesson lessonInfo)
+    public async Task<Lesson> CreateLesson(CreateLesson lessonInfo)
     {
-        throw new NotImplementedException();
+        var response = await httpService.PostAsync(new HttpWithBodyRequest
+        {
+            Route = $"{LessonCreateWithRepeatRoute}{lessonInfo.StartPeriod.ToString(DateFormat)}?{CreatePostQuery(lessonInfo)}",
+            Body = JsonSerialize(lessonInfo)
+        });
+
+        var result = JsonDeserialize<Guid[]>(response);
+        return await GetLesson(result.First());
     }
 
-    public Task<Lesson> UpdateLesson(Guid lessonId, CreateLesson lessonInfo)
+    public async Task<Lesson> UpdateLesson(Guid lessonId, CreateLesson lessonInfo)
     {
-        throw new NotImplementedException();
+        await httpService.PutAsync(new HttpWithBodyRequest
+        {
+            Route = $"{LessonRoute}/{lessonId}?{CreatePutQuery(lessonInfo)}",
+            Body = JsonSerialize(lessonInfo)
+        });
+
+        return await GetLesson(lessonId);
     }
 
-    public Task DeleteLesson(Guid lessonId)
+    public async Task DeleteLesson(Guid lessonId)
     {
-        throw new NotImplementedException();
+        await httpService.DeleteAsync(new HttpWithBodyRequest
+        {
+            Route = $"{LessonRoute}/{lessonId}"
+        });
     }
 
-    public Task<Lesson> GetLesson(Guid id)
+    public async Task SetMark(MarkInfo markInfo)
     {
-        throw new NotImplementedException();
+        await httpService.PostAsync(new HttpWithBodyRequest()
+        {
+            Route = $"/Mark?{CreateMarkQuery(markInfo)}"
+        });
     }
 
-    public Task SetMark(MarkInfo markInfo)
+    public async Task<Lesson> GetLesson(Guid id)
     {
-        throw new NotImplementedException();
+        var response = await httpService.GetAsync(new BaseHttpRequest
+        {
+            Route = $"{LessonRoute}/{id}"
+        });
+
+        return JsonDeserialize<Lesson>(response);
+    }
+    
+    private string CreateScheduleQuery(ScheduleRequest parameters) =>
+        $"startTime={parameters.StartTime.ToString("hh:mm:ss")}" +
+        $"&endTime={parameters.EndTime.ToString("hh:mm:ss")}" +
+        $"&startDate={parameters.StartDate.ToString(DateFormat)}" +
+        $"&endDate={parameters.EndDate.ToString(DateFormat)}";
+
+    private string CreatePutQuery(CreateLesson request) =>
+        $"subject={request.Subject}" +
+        $"&userId={request.UserId}" +
+        $"&className={request.ClassName}" +
+        (request.TaskId is not null ? $"&taskId={request.TaskId}" : "");
+
+    private string CreatePostQuery(CreateLesson lessonInfo) =>
+        $"{CreateWeekDaysParam(lessonInfo.DayWeek)}&endPeriod={lessonInfo.EndPeriod.ToString(DateFormat)}";
+    private string CreateWeekDaysParam(WeekDay[] weekDays) => weekDays.Aggregate("", (current, weekDay) => current + $"days={(int)weekDay}&").Trim('&');
+
+    private string CreateMarkQuery(MarkInfo markInfo) =>
+        $"Date={markInfo.Date}" +
+        $"LessonID={markInfo.LessonId}" +
+        $"TeacherID={markInfo.TeacherId}" +
+        $"StudentID={markInfo.StudentId}" +
+        $"Mark={markInfo.Mark ?? 0}" +
+        $"Comment={markInfo.Comment ?? ""}";
+    
+    protected override string JsonSerialize<T>(T value)
+    {
+        return JsonSerializer.Serialize(value, s_jsonSerializerOptions);
+    }
+
+    protected override T JsonDeserialize<T>(string value)
+    {
+        return JsonSerializer.Deserialize<T>(value, s_jsonSerializerOptions)!;
     }
 }

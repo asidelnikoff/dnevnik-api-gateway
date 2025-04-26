@@ -1,7 +1,8 @@
-﻿namespace Dnevnik.ApiGateway.Controllers.Dto.Responses;
+﻿using Dnevnik.ApiGateway.Controllers.Dto.Requests;
 
-public class LoginResponse
+namespace Dnevnik.ApiGateway.Controllers.Dto.Responses;
+
+public class LoginResponse : RefreshReponse
 {
-    public required string Token { get; init; }
     public required User User { get; init; }
 }

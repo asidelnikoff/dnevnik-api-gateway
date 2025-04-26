@@ -1,16 +1,16 @@
-﻿using Dnevnik.ApiGateway.Controllers.Dto;
-using Dnevnik.ApiGateway.Services.Schedule.Dto;
+﻿using Dnevnik.ApiGateway.Services.Schedule.Dto;
 using Dnevnik.ApiGateway.Services.Schedule.Models;
 
 namespace Dnevnik.ApiGateway.Services.Schedule;
 
 public interface IScheduleApiService
 {
-    Lesson[] GetSummarySchedule(ScheduleRequest parameters);
-    Task<Lesson[]> GetUserSchedule(Guid uesrId, Role role);
-    Lesson CreateLesson(CreateLesson lessonInfo);
-    Lesson UpdateLesson(Guid lessonId, CreateLesson lessonInfo);
-    void DeleteLesson(Guid lessonId);
+    Task<Lesson[]> GetSummarySchedule(ScheduleRequest parameters);
+    Task<Lesson[]> GetUserSchedule(string className, ScheduleRequest parameters);
+    Task<Lesson> CreateLesson(CreateLesson lessonInfo);
+    Task<Lesson> UpdateLesson(Guid lessonId, CreateLesson lessonInfo);
+    Task DeleteLesson(Guid lessonId);
+    Task<Lesson> GetLesson(Guid id);
 
-    void SetMark(MarkInfo markInfoInfo);
+    Task SetMark(MarkInfo markInfo);
 }

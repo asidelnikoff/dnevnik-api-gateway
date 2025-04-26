@@ -10,6 +10,8 @@ app.UseMiddleware<RequestsMetricMiddleware>();
 app.UseExceptionMiddleware();
 app.UseHttpLogging();
 
+app.UseCors("AllowAllOrigins");
+
 // Configure the HTTP request pipeline.
 app.UseSwagger();
 app.UseSwaggerUI();

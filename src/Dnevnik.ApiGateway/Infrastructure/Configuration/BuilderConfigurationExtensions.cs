@@ -19,13 +19,26 @@ public static class BuilderConfigurationExtensions
             o.LoggingFields = HttpLoggingFields.All;
         });
         
+        services.AddCors(options => options.AddPolicy(
+            "AllowAllOrigins",
+            policyBuilder =>
+            {
+                policyBuilder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .WithExposedHeaders("Content-Disposition");
+            }
+        ));
+        
         services.AddHealthChecks(builder.Configuration);
         services.AddResponseCompression();
         services.AddRouting();
         services.AddControllers()
             .AddJsonOptions(options =>
             {
-                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.Never;
+                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
                 options.JsonSerializerOptions.Converters.Add(
                     new JsonStringEnumConverter(JsonNamingPolicy.SnakeCaseLower));
             });

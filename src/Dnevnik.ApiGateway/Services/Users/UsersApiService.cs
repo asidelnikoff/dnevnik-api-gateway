@@ -58,8 +58,14 @@ public class UsersApiService(IHttpService httpService) : BaseApiService, IUsersA
         await httpService.DeleteAsync(new HttpWithBodyRequest { Route = $"{UsersRoute}/{id}" });
     }
 
-    public Task<User[]> GetUsersList(FilterRequest request)
+    public async Task<User[]> GetUsersList(FilterRequest request)
     {
-        throw new NotImplementedException();
+        var response = await httpService.PostAsync(new HttpWithBodyRequest
+        {
+            Body = JsonSerialize(request),
+            Route = UsersRoute
+        });
+        
+        return JsonDeserialize<User[]>(response);
     }
 }

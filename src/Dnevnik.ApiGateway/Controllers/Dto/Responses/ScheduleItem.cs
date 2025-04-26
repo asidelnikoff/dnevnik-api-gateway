@@ -12,6 +12,5 @@ public class ScheduleItem
     public required Teacher Teacher { get; init; }
     public required string Class { get; init; }
     public string? Homework { get; init; }
-    public int? LessonGrade { get; init; }
-    public int? HomeworkGrade { get; init; }
+    public int[]? Grades { get; init; }
 }

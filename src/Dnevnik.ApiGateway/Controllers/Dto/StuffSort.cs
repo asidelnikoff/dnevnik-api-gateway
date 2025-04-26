@@ -3,5 +3,7 @@
 public enum StuffSort
 {
     NameAsc,
-    NameDesc
+    NameDesc,
+    SubjectAsc,
+    SubjectDesc
 }

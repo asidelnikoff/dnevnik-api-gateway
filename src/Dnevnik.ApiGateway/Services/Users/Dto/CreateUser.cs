@@ -1,13 +1,15 @@
-﻿namespace Dnevnik.ApiGateway.Services.Users.Models;
+﻿using Dnevnik.ApiGateway.Services.Users.Models;
+
+namespace Dnevnik.ApiGateway.Services.Users.Dto;
 
 public class CreateUser
 {
     public string? Name { get; init; }
     public string? Surname { get; init; }
     public string? Patronymic { get; init; }
-    public string? Email { get; init; }
+    public string? Login { get; init; }
     public UserType Type { get; init; }
     public string? Password { get; init; }
     public string? ClassName { get; init; }
-    public string? SubjectName { get; init; }
+    public string? Subject { get; init; }
 }

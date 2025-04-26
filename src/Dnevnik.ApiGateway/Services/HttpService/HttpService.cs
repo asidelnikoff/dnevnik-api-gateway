@@ -17,7 +17,7 @@ public class HttpService(
     HttpServiceOptions? serviceOptions = null
 ) : IHttpService
 {
-    public async Task<string> PostAsync(HttpPostRequest request)
+    public async Task<string> PostAsync(HttpWithBodyRequest request)
     {
         Log(
             LogLevel.Information,
@@ -33,13 +33,6 @@ public class HttpService(
         if (!string.IsNullOrEmpty(request.Body))
         {
             content = new StringContent(request.Body, Encoding.UTF8, MediaTypeNames.Application.Json);
-        }
-
-        if (!string.IsNullOrEmpty(request.Authorization))
-        {
-            content ??= new StringContent("");
-
-            httpClient.DefaultRequestHeaders.Add("Authorization", request.Authorization);
         }
 
         return await SendRequestAsync(httpClient.PostAsync(request.Route, content), $"{httpClient.BaseAddress}{request.Route}");
@@ -58,7 +51,7 @@ public class HttpService(
         return await SendRequestAsync(httpClient.GetAsync(request.Route), $"{httpClient.BaseAddress}{request.Route}");
     }
     
-    public async Task<string> DeleteAsync(BaseHttpRequest request)
+    public async Task<string> DeleteAsync(HttpWithBodyRequest request)
     {
         Log(
             LogLevel.Information,
@@ -67,11 +60,17 @@ public class HttpService(
             nameof(DeleteAsync),
             request.Route
         );
-
-        return await SendRequestAsync(httpClient.DeleteAsync(request.Route), $"{httpClient.BaseAddress}{request.Route}");
+        
+        var httpRequest = new HttpRequestMessage(HttpMethod.Delete, request.Route);
+        if (!string.IsNullOrEmpty(request.Body))
+        {
+            httpRequest.Content = new StringContent(request.Body, Encoding.UTF8, MediaTypeNames.Application.Json);
+        }
+        
+        return await SendRequestAsync(httpClient.SendAsync(httpRequest), $"{httpClient.BaseAddress}{request.Route}");
     }
 
-    public async Task<string> PutAsync(HttpPostRequest request)
+    public async Task<string> PutAsync(HttpWithBodyRequest request)
     {
         Log(
             LogLevel.Information,
@@ -87,13 +86,6 @@ public class HttpService(
         if (!string.IsNullOrEmpty(request.Body))
         {
             content = new StringContent(request.Body, Encoding.UTF8, MediaTypeNames.Application.Json);
-        }
-
-        if (!string.IsNullOrEmpty(request.Authorization))
-        {
-            content ??= new StringContent("");
-
-            httpClient.DefaultRequestHeaders.Add("Authorization", request.Authorization);
         }
 
         return await SendRequestAsync(httpClient.PutAsync(request.Route, content), $"{httpClient.BaseAddress}{request.Route}");

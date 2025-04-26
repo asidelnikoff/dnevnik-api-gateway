@@ -1,5 +1,6 @@
 ﻿using Dnevnik.ApiGateway.Infrastructure.Configuration.Config;
 using Dnevnik.ApiGateway.Services.ApiService;
+using Dnevnik.ApiGateway.Services.Journal;
 using Dnevnik.ApiGateway.Services.Schedule;
 using Dnevnik.ApiGateway.Services.Tasks;
 using Dnevnik.ApiGateway.Services.Users;
@@ -14,4 +15,6 @@ public static class ApiServiceExtensions
         apiServiceFactory.Create<ITasksApiService, TasksApiService, TasksOptions>(serviceName, isLoggingEnabled);
     public static IUsersApiService CreateUsersApiService(this IApiServiceFactory apiServiceFactory, string serviceName, bool isLoggingEnabled = true) =>
         apiServiceFactory.Create<IUsersApiService, UsersApiService, UsersOptions>(serviceName, isLoggingEnabled);
+    public static IJournalApiService CreateJournalApiService(this IApiServiceFactory apiServiceFactory, string serviceName, bool isLoggingEnabled = true) =>
+        apiServiceFactory.Create<IJournalApiService, JournalApiService, JournalOptions>(serviceName, isLoggingEnabled);
 }

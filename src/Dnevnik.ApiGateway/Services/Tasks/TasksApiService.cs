@@ -12,7 +12,7 @@ public class TasksApiService(IHttpService httpService) : BaseApiService, ITasksA
 {
     public async Task<Task> CreateTask(CreateTask task)
     {
-        var taskResponse = JsonDeserialize<CreateTaskTemplateResponse>(await httpService.PostAsync(new HttpPostRequest
+        var taskResponse = JsonDeserialize<CreateTaskTemplateResponse>(await httpService.PostAsync(new HttpWithBodyRequest
         {
             Route = "task",
             Body = JsonSerialize(new CreateTaskTemplateRequest
@@ -22,7 +22,7 @@ public class TasksApiService(IHttpService httpService) : BaseApiService, ITasksA
             })
         }));
 
-        await httpService.PostAsync(new HttpPostRequest
+        await httpService.PostAsync(new HttpWithBodyRequest
         {
             Route = "task/assignment",
             Body = JsonSerialize(new AssignTaskRequest
@@ -45,9 +45,19 @@ public class TasksApiService(IHttpService httpService) : BaseApiService, ITasksA
         return JsonDeserialize<Task>(response);
     }
 
+    public Task<Task?> GetTaskOrDefault(Guid id, string className)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Task> UpdateTask(UpdateTaskRequest request)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<Task> UpdateTask(Task updatedTask)
     {
-        var response = await httpService.PutAsync(new HttpPostRequest
+        var response = await httpService.PutAsync(new HttpWithBodyRequest
         {
             Route = "task/update",
             Body = JsonSerialize(updatedTask)
@@ -58,7 +68,7 @@ public class TasksApiService(IHttpService httpService) : BaseApiService, ITasksA
 
     public async System.Threading.Tasks.Task DeleteTask(Guid id)
     {
-        await httpService.DeleteAsync(new DeleteHttpRequest
+        await httpService.DeleteAsync(new HttpWithBodyRequest
         {
             Route = $"task/{id}/delete"
         });

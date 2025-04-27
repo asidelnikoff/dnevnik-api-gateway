@@ -1,11 +1,9 @@
-﻿using Dnevnik.ApiGateway.Infrastructure.Configuration.Config;
-using Dnevnik.ApiGateway.Services.ApiService;
-using Dnevnik.ApiGateway.Services.HttpService;
+﻿using Dnevnik.ApiGateway.Services.ApiService;
+using Dnevnik.ApiGateway.Services.Auth;
+using Dnevnik.ApiGateway.Services.Journal;
 using Dnevnik.ApiGateway.Services.Schedule;
 using Dnevnik.ApiGateway.Services.Tasks;
 using Dnevnik.ApiGateway.Services.Users;
-
-using Microsoft.Extensions.Options;
 
 namespace Dnevnik.ApiGateway.Infrastructure.Configuration;
 
@@ -18,10 +16,17 @@ public static class ServicesExtensions
 
     private static IServiceCollection AddApiServices(this IServiceCollection services)
     {
-        services.AddHttpClient<IScheduleApiService>();
+        services.AddHttpClient<IScheduleApiService>()
+            .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                ClientCertificateOptions = ClientCertificateOption.Manual,
+                ServerCertificateCustomValidationCallback = (_, _, _, _) => true
+            });
         services.AddHttpClient<ITasksApiService>();
         services.AddHttpClient<IUsersApiService>();
+        services.AddHttpClient<IJournalApiService>();
 
-        return services.AddTransient<IApiServiceFactory, ApiServiceFactory>();
+        return services
+            .AddTransient<IApiServiceFactory, ApiServiceFactory>();
     }
 }

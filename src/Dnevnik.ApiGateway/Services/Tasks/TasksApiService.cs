@@ -44,33 +44,44 @@ public class TasksApiService(IHttpService httpService) : BaseApiService, ITasksA
         
         return JsonDeserialize<Task>(response);
     }
-
-    public Task<Task?> GetTaskOrDefault(Guid id, string className)
+    
+    public async Task<Task?> GetTaskOrDefault(Guid id, string className)
     {
-        throw new NotImplementedException();
+        var response = await httpService.GetAsync(new BaseHttpRequest
+        {
+            Route = $"task/get-by-class?class={className}"
+        });
+
+        var deserialized = JsonDeserialize<ClassTasks>(response);
+
+        if (deserialized.Tasks is null or [])
+        {
+            return null;
+        }
+        
+        var task = deserialized.Tasks
+            .First(a => a.TaskId == id);
+        
+        return JsonDeserialize<Task>(JsonSerialize(task));
     }
 
-    public Task<Task> UpdateTask(UpdateTaskRequest request)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<Task> UpdateTask(Task updatedTask)
+    public async Task<Task> UpdateTask(UpdateTaskRequest request)
     {
         var response = await httpService.PutAsync(new HttpWithBodyRequest
         {
-            Route = "task/update",
-            Body = JsonSerialize(updatedTask)
+            Route = "task/assignment-update",
+            Body = JsonSerialize(request)
         });
         
-        return JsonDeserialize<Task>(response);
+        return await GetTaskOrDefault(request.ClassTaskId, request.Class) ?? throw new Exception("Not found task");
     }
 
     public async System.Threading.Tasks.Task DeleteTask(Guid id)
     {
         await httpService.DeleteAsync(new HttpWithBodyRequest
         {
-            Route = $"task/{id}/delete"
+            Route = $"task/assignment-delete",
+            Body = JsonSerialize(new { ClassTaskId = id })
         });
     }
 }

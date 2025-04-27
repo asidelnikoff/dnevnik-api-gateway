@@ -16,7 +16,8 @@ public static class HealthChecksExtensions
             .AddApplicationLifecycleHealthCheck()
             .AddCheck<ScheduleHealthCheck>("Schedule")
             .AddCheck<TasksHealthCheck>("Tasks")
-            .AddCheck<UsersHealthCheck>("Users");
+            .AddCheck<UsersHealthCheck>("Users")
+            .AddCheck<JournalHealthCheck>("Journal");
 
         return services;
     }

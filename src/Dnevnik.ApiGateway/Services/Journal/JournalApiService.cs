@@ -6,23 +6,77 @@ namespace Dnevnik.ApiGateway.Services.Journal;
 
 public class JournalApiService(IHttpService httpService) : BaseApiService, IJournalApiService
 {
-    public Task<UserMark[]> CreateMarks(CreateMarkRequest[] marks)
+    private const string Marks = "marks";
+    
+    public async Task<UserMark[]> CreateMarks(CreateMarkRequest[] marks)
     {
-        throw new NotImplementedException();
+        var response = await httpService.PostAsync(new HttpWithBodyRequest
+        {
+            Route = Marks,
+            Body = JsonSerialize(marks)
+        });
+
+        return JsonDeserialize<UserMark[]>(response);
     }
 
-    public Task<UserMark[]> UpdateMarks(UserMark[] marks)
+    public async Task<UserMark[]> UpdateMarks(UserMark[] marks)
     {
-        throw new NotImplementedException();
+        var response = await httpService.PutAsync(new HttpWithBodyRequest
+        {
+            Route = Marks,
+            Body = JsonSerialize(marks)
+        });
+
+        return JsonDeserialize<UserMark[]>(response);
     }
 
-    public Task DeleteMarks(UserMark[] marks)
+    public async Task DeleteMarks(UserMark[] marks)
     {
-        throw new NotImplementedException();
+        await httpService.DeleteAsync(new HttpWithBodyRequest
+        {
+            Route = Marks,
+            Body = JsonSerialize(marks)
+        });
     }
 
-    public Task<UserMark[]> GetMarks(FiltersRequest filters)
+    public async Task<UserMark[]> GetMarks(FiltersRequest filters)
     {
-        throw new NotImplementedException();
+        var response = await httpService.GetAsync(new HttpWithBodyRequest
+        {
+            Route = $"{Marks}?{CreateFiltersQuery(filters)}"
+        });
+
+        return JsonDeserialize<UserMark[]>(response);
+    }
+
+    private string CreateFiltersQuery(FiltersRequest filter)
+    {
+        var result = "";
+        if (filter.UserId is not null)
+        {
+            result += $"UserId={filter.UserId}&";
+        }
+
+        if (filter.LessonId is not null)
+        {
+            result += $"LessonId={filter.LessonId}&";
+        }
+
+        if (filter.Subject is not null)
+        {
+            result += $"Subject={filter.Subject}&";
+        }
+
+        if (filter.From is not null)
+        {
+            result += $"From={filter.From}&";
+        }
+
+        if (filter.To is not null)
+        {
+            result += $"To={filter.To}&";
+        }
+
+        return result.Trim('&');
     }
 }
